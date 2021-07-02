@@ -104,6 +104,10 @@ window.addEventListener('keydown', e => {
   if (e.key === 'Escape') hideModal();
 });
 
+lightbox
+  .querySelector('.lightbox__overlay')
+  .addEventListener('click', hideModal);
+
 function hideModal() {
   lightbox.classList.remove('is-open');
   bigImage.setAttribute('src', '');
