@@ -65,24 +65,40 @@ const galleryItems = [
 ];
 
 const galleryList = document.querySelector('.js-gallery');
+
 for (const { preview, original, description } of galleryItems) {
   const newItem = document.createElement('li');
   newItem.className = 'gallery__item';
+
   const newLink = document.createElement('a');
   newLink.className = 'gallery__link';
   newLink.href = original;
+
   const newImage = document.createElement('img');
   newImage.className = 'gallery__image';
   newImage.setAttribute('src', preview);
   newImage.setAttribute('alt', description);
   newImage.dataset['source'] = original;
+
   newLink.appendChild(newImage);
   newItem.appendChild(newLink);
   galleryList.appendChild(newItem);
 }
 
+const lightbox = document.querySelector('.js-lightbox');
+const bigImage = lightbox.querySelector('.lightbox__image');
+
 galleryList.addEventListener('click', e => {
   if (e.target.nodeName !== 'IMG') return;
-  console.log(e.target.dataset.source);
   e.preventDefault();
+
+  lightbox.classList.toggle('is-open');
+  bigImage.setAttribute('src', e.target.dataset.source);
+});
+
+const btnClose = lightbox.querySelector('button[data-action="close-lightbox"]');
+
+btnClose.addEventListener('click', () => {
+  lightbox.classList.toggle('is-open');
+  bigImage.setAttribute('src', '');
 });
