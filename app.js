@@ -101,7 +101,29 @@ const btnClose = lightbox.querySelector('button[data-action="close-lightbox"]');
 btnClose.addEventListener('click', hideModal);
 
 window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') hideModal();
+  if (!lightbox.classList.contains('is-open')) return;
+  let increment = 0;
+  switch (e.key) {
+    case 'Escape':
+      hideModal();
+    default:
+      return;
+
+    case 'ArrowLeft':
+      increment = -1;
+      break;
+    case 'ArrowRight':
+      increment = 1;
+      break;
+  }
+  //console.log(increment);
+  let idx = galleryItems.findIndex(
+    ({ original }) => original == bigImage.getAttribute('src'),
+  );
+  bigImage.setAttribute(
+    'src',
+    galleryItems[mod(idx + increment, galleryItems.length)].original,
+  );
 });
 
 lightbox
@@ -111,4 +133,8 @@ lightbox
 function hideModal() {
   lightbox.classList.remove('is-open');
   bigImage.setAttribute('src', '');
+}
+
+function mod(a, n) {
+  return ((a % n) + n) % n; // modulo without negatives
 }
