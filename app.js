@@ -92,13 +92,19 @@ galleryList.addEventListener('click', e => {
   if (e.target.nodeName !== 'IMG') return;
   e.preventDefault();
 
-  lightbox.classList.toggle('is-open');
+  lightbox.classList.add('is-open');
   bigImage.setAttribute('src', e.target.dataset.source);
 });
 
 const btnClose = lightbox.querySelector('button[data-action="close-lightbox"]');
 
-btnClose.addEventListener('click', () => {
-  lightbox.classList.toggle('is-open');
-  bigImage.setAttribute('src', '');
+btnClose.addEventListener('click', hideModal);
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') hideModal();
 });
+
+function hideModal() {
+  lightbox.classList.remove('is-open');
+  bigImage.setAttribute('src', '');
+}
