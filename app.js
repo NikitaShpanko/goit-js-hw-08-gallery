@@ -116,14 +116,24 @@ window.addEventListener('keydown', e => {
       increment = 1;
       break;
   }
-  //console.log(increment);
   let idx = galleryItems.findIndex(
     ({ original }) => original == bigImage.getAttribute('src'),
   );
-  bigImage.setAttribute(
-    'src',
-    galleryItems[mod(idx + increment, galleryItems.length)].original,
-  );
+  ///////////////////////////////////////////////////
+  // If you need infinite gallery, uncomment this: //
+  ///////////////////////////////////////////////////
+  // idx = mod(idx + increment, galleryItems.length);
+  //////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////
+  // If you need gallery, that stops at limits, //
+  //               uncomment this:              //
+  ////////////////////////////////////////////////
+  idx += increment;
+  if (idx === -1 || idx === galleryItems.length) return;
+  ////////////////////////////////////////////////
+
+  bigImage.setAttribute('src', galleryItems[idx].original);
 });
 
 lightbox
@@ -135,6 +145,10 @@ function hideModal() {
   bigImage.setAttribute('src', '');
 }
 
-function mod(a, n) {
-  return ((a % n) + n) % n; // modulo without negatives
-}
+///////////////////////////////////////////////////
+// If you need infinite gallery, uncomment this: //
+///////////////////////////////////////////////////
+// function mod(a, n) {
+//   return ((a % n) + n) % n; // modulo without negatives
+// }
+///////////////////////////////////////////////////
